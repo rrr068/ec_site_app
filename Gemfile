@@ -76,3 +76,5 @@ gem 'importmap-rails'
 
 gem 'devise'
 gem 'stripe'
+gem 'jquery-rails'
+gem 'font-awesome-sass', '~> 6.4.2'

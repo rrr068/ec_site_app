@@ -1,0 +1,42 @@
+<div class="text-center">
+  <span class="text-3xl font-bold">
+    出品
+  </span>
+</div>
+
+<div class="container text-center">
+    <div class="mx-auto">
+
+      <%= form_with model: @product, url: admin_products_path, local: true, data: { turbo: false }  do |f| %>
+        <%= render "admin/shared/error_messages", resource: @product %>
+
+        <div class="field">
+          <%= f.label :name, class: "form-label"%>
+          <%= f.text_field :name %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :description, class: "form-label"%>
+          <%= f.text_area :description %>
+        </div>
+        
+        <div class="field">
+          <%= f.label :price, class: "form-label"%>
+          <%= f.number_field :price %>
+        </div>
+
+        <div class="field">
+          <%= f.label :stock, class: "form-label"%>
+          <%= f.number_field :stock %>
+        </div>
+
+        <div class="field">
+          <%= f.label :image, class: "form-label"%>
+          <%= f.file_field :image %>
+        </div>
+
+        <%= f.submit %>
+        
+        <% end %>
+    </div>
+</div>

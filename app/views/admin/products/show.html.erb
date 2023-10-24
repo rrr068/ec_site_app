@@ -1,0 +1,30 @@
+<div class="container text-center">
+  <div class="row w-50 mx-auto mt-3 mb-5">
+
+    <div class="card text-center">
+      <%= image_tag @product.image, class: "card-img-top mt-2" %>
+      <div class="card-body">
+        <h5 class="card-title"><%= @product.name %></h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= @product.description %></li>
+        <li class="list-group-item"><%= number_to_currency(@product.price, unit: "¥", strip_insignificant_zeros: true) %></li>
+        <li class="list-group-item">
+          <% if @product.stock > 0 %>
+            在庫有り (<%= @product.stock %>)
+          <% else %>
+            在庫切れ
+          <% end %>
+        </li>
+      </ul>
+      <div class="card-body">
+        <p class="card-link">
+          <%= link_to edit_admin_product_path(@product), class: "text-center cursor-pointer btn btn-primary" do %>
+            編集
+          <% end %>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
