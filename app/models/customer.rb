@@ -14,5 +14,7 @@ class Customer < ApplicationRecord
    withdrawn: 1,
    banned: 2
   }
+
+  has_many :cart_items, dependent: :destroy
   
 end
