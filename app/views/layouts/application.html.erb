@@ -15,7 +15,7 @@
     <header class='sticky-top'>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="<%= root_path %>">ECサイト</a>
+      <a class="navbar-brand" href="<%= root_path %>">ECサイト <i class="fa-solid fa-gift"></i></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -25,36 +25,52 @@
         <% if admin_signed_in? %>
 
           <li class="nav-item">
+            <%= link_to new_admin_product_path, class: "nav-link text-light" do %>
+              出品
+            <% end %>
+          </li>
+
+          <li class="nav-item">
             <%= link_to admin_products_path, class: "nav-link text-light" do %>
               商品一覧
             <% end %>
           </li>
 
           <li class="nav-item">
-            <%= link_to @admin, data: { turbo_method: :delete }, class: "nav-link text-light" do %>
+            <%= link_to destroy_admin_session_path, data: { turbo_method: :delete }, class: "nav-link text-light" do %>
               サインアウト
             <% end %>
           </li>
         
         <% elsif customer_signed_in? %>
 
-          <div class="nav-item">
+          <li class="nav-item">
             <%= link_to products_path, class: "nav-link text-light" do %>
-                商品一覧
+              商品一覧 <i class="fa-solid fa-box-open"></i>
             <% end %>
-          </div>
-       
-          <div class="nav-item">
-            <%= link_to edit_customer_registration_path, class: "nav-link text-light" do %>
-              アカウント設定
-            <% end %>
-          </div>
+          </li>
 
-          <div class="nav-item">
-            <%= link_to destroy_customer_session_path, data: { turbo_method: :delete }, class: "nav-link text-light" do %>
-              Sign out
+          <li class="nav-item">
+            <%= link_to cart_items_path, class: "nav-link text-light position-relative" do %>
+              カート <i class="fa-solid fa-cart-shopping"></i>
+              <span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                <%= total_quantity(current_customer.cart_items) %>
+              </span>
             <% end %>
-          </div>  
+          </li>
+            
+       
+          <li class="nav-item">
+            <%= link_to edit_customer_registration_path, class: "nav-link text-light" do %>
+              アカウント設定 <i class="fa-solid fa-user-gear"></i>
+            <% end %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to destroy_customer_session_path, data: { turbo_method: :delete }, class: "nav-link text-light" do %>
+              ログアウト <i class="fa-solid fa-right-from-bracket"></i>
+            <% end %>
+          </li>  
 
         <% else %>
   

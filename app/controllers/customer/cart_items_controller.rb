@@ -1,44 +1,44 @@
 class Customer::CartItemsController < ApplicationController
   before_action :authenticate_customer!
   before_action :set_cart_item, only: %i[increase decrease destroy]
-  
-  
+
   def index
     @cart_items = current_customer.cart_items
+    @total = @cart_items.inject(0) { |sum, cart_item| sum + cart_item.line_total }
   end
 
   def create
-    increase_or_create(params[:cart_item][:product_id])
-    redirect_to cart_items_path, notice: '商品をカートに入れました'
+    increase_or_create(params[:product][:product_id])
+    redirect_to cart_items_path, notice: 'カートに入れました'
   end
 
   def increase
     @cart_item.increment!(:quantity, 1)
-    redirect_to request.referer, notice: '商品を更新しました'
+    redirect_to request.referer, notice: '更新しました'
   end
 
   def decrease
     decrease_or_destroy(@cart_item)
-    redirect_to request.referer, notice: '商品を更新しました'
+    redirect_to request.referer, notice: '更新しました'
   end
 
   def destroy
     @cart_item.destroy
-    redirect_to request.referer, notice: '商品を削除しました'
+    redirect_to request.referer, notice: 'カートから削除しました'
   end
 
   private
 
   def set_cart_item
-    @cart_item = current_cutomer.cart_items.find(params[:id])
+    @cart_item = current_customer.cart_items.find(params[:id])
   end
 
   def increase_or_create(product_id)
-    cart_item = current_cutomer.cart_items.find_by(product_id:)
+    cart_item = current_customer.cart_items.find_by(product_id:)
     if cart_item
       cart_item.increment!(:quantity, 1)
     else
-      current_cutomer.cart_items.build(product_id:).save
+      current_customer.cart_items.build(product_id:).save
     end
   end
 
@@ -49,5 +49,4 @@ class Customer::CartItemsController < ApplicationController
       cart_item.destroy
     end
   end
-
 end
