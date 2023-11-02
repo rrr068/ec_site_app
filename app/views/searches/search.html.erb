@@ -1,0 +1,25 @@
+<table class="table table-hover table-inverse">
+  <% if @range == "Product" %>
+  <div class="alert alert-light" role="alert">
+    <p>検索ワード "<%= @word %>"</p>
+  </div>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= image_tag product.image  %></td>
+          <td><%= product.name %></td>
+          <td>残り<%= product.stock %>個</td>
+          <td><%= number_to_currency(product.price, unit: "¥", strip_insignificant_zeros: true) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  <% end %>
+</table>

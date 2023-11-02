@@ -1,5 +1,5 @@
 <div class="fs-2 fw-light text-center mt-3">
-  <span class="font-bold">
+  <span class="font-bold text-secondary">
     カート商品
   </span>
 </div>
@@ -30,23 +30,24 @@
     <tbody class="table-group-divider">
     <% @cart_items.each do |cart_item| %>
       <tr>
-        <th scope="row"><%= cart_item.product.name %></th>
+      
+        <th scope="row"><%= cart_item.product.name %><%= cart_item.product.stock %></th>
         <td><%= number_to_currency(cart_item.product.price, unit: "¥", strip_insignificant_zeros: true) %></td>
-        <td>
-          <%= cart_item.product.stock %>
-            <%= link_to decrease_cart_item_path(cart_item), data: { "turbo-method": :patch }, class: "flex justify-center" do %>
+        <td>  
+            <%= link_to decrease_cart_item_path(cart_item), data: { "turbo-method": :patch },class: "link-danjer" do %>
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/></svg>
             <% end %>
+            <%= cart_item.quantity %>
           <% unless cart_item.quantity >= cart_item.product.stock %>
-            <%= link_to increase_cart_item_path(cart_item), data: { "turbo-method": :patch }, class: "flex justify-center" do %>
+            <%= link_to increase_cart_item_path(cart_item), data: { "turbo-method": :patch } do %>
               <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
             <% end %>
           <% end %>
         </td>
         <td><%= number_to_currency(cart_item.line_total, unit: "¥", strip_insignificant_zeros: true) %></td>
         <td>
-          <%= link_to cart_item_path(cart_item), data: { "turbo-method": :delete, "turbo_confirm": 'Are you sure?' } do %>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash text-red-500" viewBox="0 0 16 16">
+          <%= link_to cart_item_path(cart_item), data: { "turbo-method": :delete, "turbo_confirm": '本当によろしいですか?' } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="" viewBox="0 0 16 16">
               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
               <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
             </svg>
@@ -55,27 +56,32 @@
       </tr>
     <% end %>
     </tbody>
-
   </table>
-    <div class="mt-5">  
-      <h1 class="text-center">
-        Cart Summary
-      </h1>
-      <div class="">
+<% end %>
+    <h1 class="text-center text-secondary pt-4">
+      カート概要
+    </h1>
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      <div class="p-2">
         <span class="">商品金額</span>
         <span class=""><%= number_to_currency(@total, unit: "¥", strip_insignificant_zeros: true) %></span>
       </div>
-      <div class="">
+      <div class="p-2">
         <span class="">送料</span>
-        <span class=""><%= number_to_currency(POSTAGE, unit: "¥", strip_insignificant_zeros: true) %></span>
+        <span class="ml-3"><%= number_to_currency(POSTAGE, unit: "¥", strip_insignificant_zeros: true) %></span>
       </div>
-      <div class="">
-        <span class=""合計金額></span>
+      <div class="p-2">
+        <span class="">合計金額</span>
         <span class=""><%= number_to_currency(@total + POSTAGE, unit: "¥", strip_insignificant_zeros: true) %></span>
       </div>
+      
 
-
-      <%= button_to checkouts_path, data: { turbo: false }, class:'w-full cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' do %>
-        Checkout
+      <%= button_to checkouts_path, data: { turbo: false }, class:'btn btn-secondary cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' do %>
+        お会計
       <% end %>
-<% end %>
+    </div>
+  </div>
+</div>
