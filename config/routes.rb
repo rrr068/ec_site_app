@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   namespace :admin do
+    get 'customers/index'
+    get 'customers/show'
     get 'pages/home'
   end
   namespace :customer do
@@ -24,6 +26,7 @@ Rails.application.routes.draw do
     root to: 'pages#home'
     resources :products, only: %i[index show new create edit update]
     resources :orders, only: %i[show update]
+    resources :customers, only: %i[index show update]
   end
 
   scope module: :customer do
